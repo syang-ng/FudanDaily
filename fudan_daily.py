@@ -30,6 +30,17 @@ response = s.get(get_info_url)
 
 old_pafd_data = json.loads(response.text)
 
-response = s.post(save_url, data=old_pafd_data["d"]["info"])
+pafd_data = old_pafd_data["d"]["info"]
+
+pafd_data.update({
+    "ismoved": 0,
+    "number": old_pafd_data["d"]["uinfo"]["role"]["number"],
+    "realname": old_pafd_data["d"]["uinfo"]["realname"],
+    "sfhbtl": 0,
+    "sfjcgrq": 0,
+    "sftgfxcs": 1
+})
+
+response = s.post(save_url, data=pafd_data)
 
 print(response.text)
