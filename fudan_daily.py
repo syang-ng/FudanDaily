@@ -2,6 +2,13 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+# 伪造 UA
+headers = {
+    "Origin": "https://zlapp.fudan.edu.cn",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15",
+    "Referer": "https://zlapp.fudan.edu.cn/site/ncov/fudanDaily?from=history"
+}
+
 data = {
     "username": "",    # 学号
     "password": ""     # UIS 密码
@@ -36,11 +43,15 @@ pafd_data.update({
     "ismoved": 0,
     "number": old_pafd_data["d"]["uinfo"]["role"]["number"],
     "realname": old_pafd_data["d"]["uinfo"]["realname"],
+    "area": old_pafd_data["d"]["oldInfo"]["area"],
+    "city": old_pafd_data["d"]["oldInfo"]["city"],
+    "province": old_pafd_data["d"]["oldInfo"]["province"],
     "sfhbtl": 0,
     "sfjcgrq": 0,
     "sftgfxcs": 1
 })
 
+s.headers.update(headers)
 response = s.post(save_url, data=pafd_data)
 
 print(response.text)
